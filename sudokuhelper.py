@@ -20,7 +20,6 @@ def isGridValid(grid):
         found = list()
         for c in range(9):
             if grid[r][c] > 0 and grid[r][c] in found:
-                print(f"row: [{r},{c}]")
                 return False 
             else:
                 found.append(grid[r][c])
@@ -30,7 +29,6 @@ def isGridValid(grid):
         found = list()
         for r in range(9):
             if grid[r][c] > 0 and grid[r][c] in found:
-                print(f"col: [{r},{c}]")
                 return False 
             else:
                 found.append(grid[r][c])
@@ -42,7 +40,6 @@ def isGridValid(grid):
             for r in [i,i+1,i+2]:
                 for c in [j,j+1,j+2]:
                     if grid[r][c] > 0 and grid[r][c] in found:
-                        print(f"cluster [{r},{c}]")
                         return False 
                     else:
                         found.append(grid[r][c])
@@ -84,6 +81,7 @@ def printGrid(grid):
     print("-----------")
     for i in range(6,9):
         prntLn(grid[i])
+    print()
     
 def sudokuSolver(grid):
     """Given a 9x9 sudoku grid with some numbers filled, solve the puzzle and
@@ -91,6 +89,34 @@ def sudokuSolver(grid):
     if isGridValid(grid) == False:
         print("Error: invalid grid")
         return None
+    
+    blankCells = list() #will contain tuples of modified cells
+    
+    for r in range(9):
+        for c in range(9):
+            if grid[r][c] == 0:
+                blankCells.append([r,c])
+    
+    print(f"{len(blankCells)} cells to solve")
+    
+    i = 0
+    iterations = 0
+    while i < len(blankCells):
+        iterations += 1
+        
+        r, c = blankCells[i]
+        grid[r][c] += 1
+        
+        if grid[r][c] == 10:
+            # cycled too far, a mistake was made before this point
+            grid[r][c] = 0
+            i -= 1
+        else:
+            if isGridValid(grid) == True:
+                i += 1
+
+    print(f"solved in {iterations} iterations\n")
+    return grid
 
 def main():
     grid = [
@@ -103,8 +129,21 @@ def main():
         [5,1,0,0,9,6,8,0,0],
         [0,0,0,0,0,8,7,0,5],
         [0,0,0,7,0,0,0,9,6]]
-    print(isGridValid(grid))
+    
+    if isGridValid(grid) == True:
+        print("Valid Grid")
+    else:
+        print("INVALID GRID")
+        
     printGrid(grid)
+    
+    solvedGrid = sudokuSolver(grid.copy())
+    
+    if isGridValid(solvedGrid) == True:
+        print("Valid Grid")
+    else:
+        print("INVALID GRID")
+    printGrid(solvedGrid)
 
 if __name__ == "__main__":
     main()
