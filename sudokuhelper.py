@@ -50,12 +50,25 @@ def isGridValid(grid):
     return True
 
 def prntLn(line):
-    """print line of numbers in grid"""
-    print("".join(str(n) for n in line[:3]), end='')
+    """helper function for printGrid that prints one line"""
+    for i in range(3):
+        if line[i] == 0:
+            print(' ', end='')
+        else:
+            print(line[i], end='')
     print('|', end='')
-    print("".join(str(n) for n in line[3:6]), end='')
+    for i in range(3,6):
+        if line[i] == 0:
+            print(' ', end='')
+        else:
+            print(line[i], end='')
     print('|', end='')
-    print("".join(str(n) for n in line[6:]))
+    for i in range(6,9):
+        if line[i] == 0:
+            print(' ', end='')
+        else:
+            print(line[i], end='')
+    print()
     
 def printGrid(grid):
     """Format and print out sudoku grid"""
@@ -81,15 +94,15 @@ def sudokuSolver(grid):
 
 def main():
     grid = [
-        [1,0,0,0,0,0,0,0,0],
-        [0,2,0,0,0,0,0,0,0],
-        [0,0,3,0,0,0,0,0,0],
-        [0,0,0,4,0,0,0,0,0],
-        [0,0,0,0,5,0,0,0,0],
-        [0,0,0,0,0,6,0,0,0],
-        [0,0,0,0,0,0,7,0,0],
-        [0,0,0,0,0,0,0,8,0],
-        [0,0,0,0,0,0,0,0,9]]
+        [0,8,0,6,4,0,0,0,7],
+        [7,6,0,5,3,0,9,0,0],
+        [0,0,0,0,2,7,0,0,3],
+        [1,4,0,9,6,2,0,7,0],
+        [2,0,0,3,7,0,0,0,1],
+        [0,7,0,0,8,0,4,2,9],
+        [5,1,0,0,9,6,8,0,0],
+        [0,0,0,0,0,8,7,0,5],
+        [0,0,0,7,0,0,0,9,6]]
     print(isGridValid(grid))
     printGrid(grid)
 
