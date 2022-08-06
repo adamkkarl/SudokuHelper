@@ -45,27 +45,6 @@ def isGridValid(grid):
                         found.append(grid[r][c])
                         
     return True
-
-def prntLn(line):
-    """helper function for printGrid that prints one line"""
-    for i in range(3):
-        if line[i] == 0:
-            print(' ', end='')
-        else:
-            print(line[i], end='')
-    print('|', end='')
-    for i in range(3,6):
-        if line[i] == 0:
-            print(' ', end='')
-        else:
-            print(line[i], end='')
-    print('|', end='')
-    for i in range(6,9):
-        if line[i] == 0:
-            print(' ', end='')
-        else:
-            print(line[i], end='')
-    print()
     
 def printGrid(grid):
     """Format and print out sudoku grid"""
@@ -73,14 +52,33 @@ def printGrid(grid):
     if len(grid) != 9 or len(grid[0]) != 9:
         return
     
-    for i in range(3):
-        prntLn(grid[i])
-    print("-----------")
-    for i in range(3,6):
-        prntLn(grid[i])
-    print("-----------")
-    for i in range(6,9):
-        prntLn(grid[i])
+    for r in range (9):
+        for c in range(3):
+            if grid[r][c] == 0:
+                print(' ', end='')
+            else:
+                print(grid[r][c], end='')
+                
+        print('|', end='')
+        
+        for c in range(3,6):
+            if grid[r][c] == 0:
+                print(' ', end='')
+            else:
+                print(grid[r][c], end='')
+                
+        print('|', end='')
+        
+        for c in range(6,9):
+            if grid[r][c] == 0:
+                print(' ', end='')
+            else:
+                print(grid[r][c], end='')
+        print()    
+        
+        # print horizontal lines  
+        if r == 2 or r == 5:
+            print("-----------")
     print()
     
 def sudokuSolver(grid):
@@ -117,6 +115,12 @@ def sudokuSolver(grid):
 
     print(f"solved in {iterations} iterations\n")
     return grid
+
+def suggestNext(grid):
+    """Given a sudoku puzzle, return coordinates where the human player should look to 
+    make progress (if any)"""
+    return 1, 1
+    
 
 def main():
     grid = [
