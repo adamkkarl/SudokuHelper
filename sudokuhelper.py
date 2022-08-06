@@ -4,6 +4,8 @@
 
 __author__ = "Adam Karl"
 
+from termcolor import colored, cprint
+
 def isGridValid(grid):
     """Given a sudoku grid that may or may not be complete,
     determine if the grid breaks any rules 
@@ -45,35 +47,47 @@ def isGridValid(grid):
                         found.append(grid[r][c])
                         
     return True
+
+def printChar(c, highlight=False):
+    """Helper function for printGrid that prints individual cell of sudoku grid"""
+    s = str(c)
+    if c == 0:
+        s = ' '
     
-def printGrid(grid):
-    """Format and print out sudoku grid"""
+    if highlight == True:
+        s = colored(s, 'yellow', attrs=['reverse', 'blink'])
+
+    print(s, end='')
+    
+def printGrid(grid, x=-1, y=-1):
+    """Format and print out sudoku grid
+    If x and y values are given, highlight that cell"""
     # check grid dimensions
     if len(grid) != 9 or len(grid[0]) != 9:
         return
     
     for r in range (9):
         for c in range(3):
-            if grid[r][c] == 0:
-                print(' ', end='')
+            if r==x and c==y:
+                printChar(grid[r][c], True)
             else:
-                print(grid[r][c], end='')
+                printChar(grid[r][c])
                 
         print('|', end='')
         
         for c in range(3,6):
-            if grid[r][c] == 0:
-                print(' ', end='')
+            if r==x and c==y:
+                printChar(grid[r][c], True)
             else:
-                print(grid[r][c], end='')
+                printChar(grid[r][c])
                 
         print('|', end='')
         
         for c in range(6,9):
-            if grid[r][c] == 0:
-                print(' ', end='')
+            if r==x and c==y:
+                printChar(grid[r][c], True)
             else:
-                print(grid[r][c], end='')
+                printChar(grid[r][c])
         print()    
         
         # print horizontal lines  
@@ -119,7 +133,7 @@ def sudokuSolver(grid):
 def suggestNext(grid):
     """Given a sudoku puzzle, return coordinates where the human player should look to 
     make progress (if any)"""
-    return 1, 1
+    return 1, 2
     
 
 def main():
@@ -139,7 +153,8 @@ def main():
     else:
         print("INVALID GRID")
         
-    printGrid(grid)
+    xHint, yHint = suggestNext(grid)
+    printGrid(grid, xHint, yHint)
     
     solvedGrid = sudokuSolver(grid.copy())
     
